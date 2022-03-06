@@ -8,6 +8,7 @@ const connectDB = async () => {
             // useCreateIndex: true,
             // useFindAndModify: false
         })
+        console.log("conn: ", process.env.MONGO_URL_DB);
 
         console.log(`MongoDB Connected: ${conn.connection.host}`.cyan.underline)
     } catch (error) {
