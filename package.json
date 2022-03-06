@@ -1,0 +1,26 @@
+{
+  "name": "blog-backend",
+  "version": "1.0.0",
+  "description": "blog backend",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node blog/server",
+    "server": "nodemon blog/server"
+  },
+  "author": "Mogau Ngwatle",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "colors": "^1.4.0",
+    "cors": "^2.8.5",
+    "dotenv": "^11.0.0",
+    "express": "^4.17.2",
+    "express-async-handler": "^1.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.1.6",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.4",
+    "nodemon": "^2.0.15"
+  }
+}
