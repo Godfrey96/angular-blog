@@ -1,6 +1,5 @@
 import express from 'express'
 import path from 'path'
-import multer from 'multer'
 import colors from 'colors'
 import { config } from 'dotenv'
 import morgan from 'morgan'
@@ -32,20 +31,6 @@ app.get('/', (req, res) => {
     res.send('API is running...')
 })
 
-// const storage = multer.diskStorage({
-//     destination(req, file, cb) {
-//         cb(null, 'uploads/')
-//     },
-//     filename(req, file, cb) {
-//         cb(null, req.body.name)
-//     },
-// })
-
-// const upload = multer({ storage: storage })
-
-// app.post('/api/uploads', upload.single('image'), (req, res) => {
-//     res.status(200).json("File has been uploaded");
-// })
 
 // users routes
 app.use('/api/users', usersRoutes);
@@ -56,8 +41,6 @@ app.use('/api/categories', categoriesRoutes);
 // post image routes
 app.use('/api/uploads', uploadRoutes);
 
-const __dirname = path.resolve()
-app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
 // app.use(notFound);
 // app.use(errorHandler);

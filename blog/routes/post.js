@@ -2,35 +2,8 @@ import Post from '../models/postModel.js';
 import express from 'express';
 import Category from '../models/categoryModel.js';
 import mongoose from 'mongoose';
-import multer from 'multer';
-import User from '../models/userModel.js';
 
 const router = express.Router();
-
-const FILE_TYPE_MAP = {
-    'image/png': 'png',
-    'image/jpeg': 'jpeg',
-    'image/jpg': 'jpg'
-};
-
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        const isValid = FILE_TYPE_MAP[file.mimetype];
-        let uploadError = new Error('invalid image type');
-
-        if (isValid) {
-            uploadError = null;
-        }
-        cb(uploadError, 'uploads/');
-    },
-    filename: function (req, file, cb) {
-        const fileName = file.originalname.split(' ').join('-');
-        const extension = FILE_TYPE_MAP[file.mimetype];
-        cb(null, `${fileName}-${Date.now()}.${extension}`);
-    }
-});
-
-const uploadOptions = multer({ storage: storage });
 
 // @desc    Fetch all posts
 // @route   Get /api/v1/posts
@@ -54,26 +27,16 @@ router.get(`/`, async (req, res) => {
 // @desc    Create a post
 // @route   POST /api/v1/posts
 // @desc    Private/Admin 
-router.post(`/`, uploadOptions.single('image'), async (req, res) => {
+router.post(`/`, async (req, res) => {
     const category = await Category.findById(req.body.category);
     if (!category) return res.status(400).send('Invalid Category');
-
-    const file = req.file;
-    if (!file) {
-        return res.status(400).send('No image in the request');
-    }
-
-    const fileName = req.file.filename;
-    const basePath = `${req.protocol}://${req.get('host')}/uploads/`;
-
-    // const apiUrl = 'http://localhost:5000/api/uploads/'
 
     let post = new Post({
         title: req.body.title,
         username: req.body.username,
         description: req.body.description,
         category: req.body.category,
-        image: `${basePath}${fileName}`,
+        image: req.body.image,
     });
 
     post = await post.save();
@@ -86,7 +49,7 @@ router.post(`/`, uploadOptions.single('image'), async (req, res) => {
 // @desc    Update a post
 // @route   POST /api/v1/posts/:id
 // @desc    Private/Admin
-router.put('/:id', uploadOptions.single('image'), async (req, res) => {
+router.put('/:id', async (req, res) => {
     if (!mongoose.isValidObjectId(req.params.id)) {
         return res.status(400).send('Invalid Product Id');
     }
@@ -96,16 +59,6 @@ router.put('/:id', uploadOptions.single('image'), async (req, res) => {
     const post = await Post.findById(req.params.id);
     if (!post) return res.status(400).send('Invalid Post!');
 
-    const file = req.file;
-    let imagepath;
-
-    if (file) {
-        const fileName = file.filename;
-        const basePath = `${req.protocol}://${req.get('host')}/uploads/`;
-        imagepath = `${basePath}${fileName}`;
-    } else {
-        imagepath = post.image;
-    }
 
     const updatedPost = await Post.findByIdAndUpdate(
         req.params.id,
@@ -114,7 +67,7 @@ router.put('/:id', uploadOptions.single('image'), async (req, res) => {
             username: req.body.username,
             description: req.body.description,
             category: req.body.category,
-            image: imagepath,
+            image: req.body.image,
         },
         { new: true }
     );
