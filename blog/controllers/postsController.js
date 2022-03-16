@@ -9,28 +9,28 @@ const createPost = asyncHandler(async (req, res) => {
     // const category = await Category.findById(req.body.category);
     // if (!category) return res.status(400).send('Invalid Category');
 
-    // let post = new Post({
-    //     title: req.body.title,
-    //     descruption: req.body.description,
-    //     category: req.body.category,
-    //     image: req.body.image,
-    //     user: req.body.user
-    // })
-    // post = await post.save();
+    let post = new Post({
+        title: req.body.title,
+        descruption: req.body.description,
+        category: req.body.category,
+        image: req.body.image,
+        username: req.body.username
+    })
+    post = await post.save();
 
-    // if (!post) {
-    //     return res.status(400).send('The post cannot be save!');
-    // }
-    // res.send(post);
-
-    const newPost = new Post(req.body);
-
-    try {
-        const createdPost = await newPost.save();
-        res.status(200).json(createdPost);
-    } catch (err) {
-        res.status(500).json(err);
+    if (!post) {
+        return res.status(400).send('The post cannot be save!');
     }
+    res.send(post);
+
+    // const newPost = new Post(req.body);
+
+    // try {
+    //     const createdPost = await newPost.save();
+    //     res.status(200).json(createdPost);
+    // } catch (err) {
+    //     res.status(500).json(err);
+    // }
 })
 
 // @desc    Update post
