@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const postSchema = new mongoose.Schema({
     title: {
         type: String,
-        unique: true
+        unique: false
     },
     description: {
         type: String,
@@ -15,13 +15,9 @@ const postSchema = new mongoose.Schema({
     },
     username: {
         type: String,
-        unique: true,
+        unique: false,
         required: true
     },
-    // user: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'User',
-    // },
     category: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category',

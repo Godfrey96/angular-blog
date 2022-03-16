@@ -33,10 +33,10 @@ router.post(`/`, async (req, res) => {
 
     let post = new Post({
         title: req.body.title,
-        username: req.body.username,
         description: req.body.description,
         category: req.body.category,
         image: req.body.image,
+        username: req.body.username,
     });
 
     post = await post.save();

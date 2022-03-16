@@ -4,14 +4,14 @@ import colors from 'colors'
 import { config } from 'dotenv'
 import morgan from 'morgan'
 import cors from 'cors';
-import { notFound, errorHandler } from './middleware/errorMiddleware.js'
+// import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 import connectDB from './config/db.js'
 
 import usersRoutes from './routes/usersRoutes.js';
 // import postsRoutes from './routes/postsRoutes.js';
 import postsRoutes from './routes/post.js';
 import categoriesRoutes from './routes/categoriesRoutes.js'
-import uploadRoutes from './routes/uploadRoutes.js'
+// import uploadRoutes from './routes/uploadRoutes.js'
 
 config();
 
@@ -39,7 +39,7 @@ app.use('/api/posts', postsRoutes);
 // categories routes
 app.use('/api/categories', categoriesRoutes);
 // post image routes
-app.use('/api/uploads', uploadRoutes);
+// app.use('/api/uploads', uploadRoutes);
 
 
 // app.use(notFound);
